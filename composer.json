@@ -1,0 +1,27 @@
+{
+    "name": "labile/vk-longpoll",
+    "authors": [
+        {
+            "name": "labile",
+            "email": "1a6i1e@gmail.com"
+        }
+    ],
+    "require": {
+        "labile/vk-utils": "dev-main",
+        "ext-pcntl": "*",
+        "ext-posix": "*"
+
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "description": "",
+    "license": "BSD-3-Clause",
+
+    "autoload": {
+        "psr-4": {
+            "Astaroth\\LongPoll\\": "src"
+        }
+    }
+}
