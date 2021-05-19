@@ -105,7 +105,7 @@ class LongPoll extends Client
      * Fork a process
      * @param callable $callable
      */
-    public function fork(callable $callable): void
+    private function fork(callable $callable): void
     {
         /** @noinspection LoopWhichDoesNotLoopInspection */
         /** @noinspection MissingOrEmptyGroupStatementInspection */
