@@ -7,7 +7,7 @@
         }
     ],
     "require": {
-        "labile/vk-utils": "dev-main",
+        "labile/vk-utils": ">=1.3.1",
         "ext-pcntl": "*",
         "ext-posix": "*"
 
