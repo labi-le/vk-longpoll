@@ -1,8 +1,8 @@
 # vk-longpoll
 
 [![GitHub license](https://img.shields.io/badge/license-BSD-green.svg)](https://github.com/labi-le/vk-longpoll-component/blob/main/LICENSE)
-[![Packagist Stars](https://img.shields.io/packagist/stars/labile/vk-longpoll-component)](https://packagist.org/packages/labile/vk-longpoll/stats)
-[![Packagist Stats](https://img.shields.io/packagist/dt/labile/vk-longpoll-component)](https://packagist.org/packages/labile/vk-longpoll/stats)
+[![Packagist Stars](https://img.shields.io/packagist/stars/labile/vk-longpoll)](https://packagist.org/packages/labile/vk-longpoll/stats)
+[![Packagist Stats](https://img.shields.io/packagist/dt/labile/vk-longpoll)](https://packagist.org/packages/labile/vk-longpoll/stats)
 
 
 ## Установка
