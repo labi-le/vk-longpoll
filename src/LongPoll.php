@@ -12,8 +12,6 @@ class LongPoll extends Client
 
     public const WAIT = 25;
 
-    public const API_TIMEOUT = PHP_INT_MAX;
-
     private string $key;
     private string $server;
     private string $ts;
@@ -31,12 +29,22 @@ class LongPoll extends Client
     private function getLongPollServer(): void
     {
         if ($this->group_id === null) {
-            $request = $this->request('groups.getById')['response'][0];
+            $request = current($this->request('groups.getById'));
             $this->group_id = $request['id'];
         }
 
-        $longPollServer = current($this->request('groups.getLongPollServer', ['group_id' => $this->group_id]));
-        array_walk($longPollServer, fn($value, $key) => $this->$key = $value);
+        $longpollData = $this->request('groups.getLongPollServer', ['group_id' => $this->group_id]);
+        foreach ($longpollData as $key => $value) {
+            if ($key === "key") {
+                $this->key = $value;
+            }
+            if ($key === "server") {
+                $this->server = $value;
+            }
+            if ($key === "ts") {
+                $this->ts = $value;
+            }
+        }
     }
 
     /**
@@ -52,7 +60,7 @@ class LongPoll extends Client
                 'wait' => self::WAIT,
             ];
 
-        return $this->requestWithoutBaseUri($this->server . '?' . http_build_query($parameters));
+        return $this->base_request($this->server . '?' . http_build_query($parameters));
     }
 
     /**
