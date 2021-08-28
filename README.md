@@ -20,8 +20,8 @@ use Astaroth\LongPoll\LongPoll;
 const GROUP_ID = 1337;
 const ACCESS_TOKEN = 1337;
 
-$longpoll = new LongPoll(GROUP_ID);
-$longpoll->setDefaultToken(ACCESS_TOKEN)
+$longpoll = new LongPoll(ACCESS_TOKEN, GROUP_ID);
+$longpoll->setWait(30)
 $longpoll->listen(static function($data){
 //....
 });

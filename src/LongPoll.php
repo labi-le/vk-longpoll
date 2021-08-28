@@ -4,22 +4,43 @@ declare(strict_types=1);
 
 namespace Astaroth\LongPoll;
 
-use Astaroth\VkUtils\Client;
 use Throwable;
 
-class LongPoll extends Client
+/**
+ * @author labile
+ * @see https://vk.com/dev/bots_longpoll
+ */
+final class LongPoll
 {
-
-    public const WAIT = 25;
-
+    private int $wait = 25;
     private string $key;
     private string $server;
+
     private string $ts;
+    private int $group_id;
+    private Api $api;
 
 
-    public function __construct(public ?int $group_id = null, int|string $version = null)
+    public function __construct(string $access_token, string $v, int $group_id = null)
     {
-        parent::__construct($version);
+        $this->api = new Api($access_token, $v);
+
+        if ($group_id === null) {
+            $request = $this->api->apiCall("groups.getById")[0];
+            $this->group_id = $request["id"];
+        } else {
+            $this->group_id = $group_id;
+        }
+    }
+
+    /**
+     * @param int $second
+     * @return static
+     */
+    public function setWait(int $second)
+    {
+        $this->wait = $second;
+        return $this;
     }
 
     /**
@@ -28,13 +49,11 @@ class LongPoll extends Client
      */
     private function getLongPollServer(): void
     {
-        if ($this->group_id === null) {
-            $request = current($this->request('groups.getById'));
-            $this->group_id = $request['id'];
-        }
-
-        $longpollData = $this->request('groups.getLongPollServer', ['group_id' => $this->group_id]);
-        foreach ($longpollData as $key => $value) {
+        foreach ($this->api->apiCall("groups.getLongPollServer",
+            [
+                "group_id" => $this->group_id
+            ]
+        ) as $key => $value) {
             if ($key === "key") {
                 $this->key = $value;
             }
@@ -52,18 +71,18 @@ class LongPoll extends Client
      */
     private function fetchData(): array
     {
-        $parameters =
+        return $this->api->call($this->server,
             [
-                'act' => 'a_check',
-                'key' => $this->key,
-                'ts' => $this->ts,
-                'wait' => self::WAIT,
-            ];
-
-        return $this->base_request($this->server . '?' . http_build_query($parameters));
+                "act" => "a_check",
+                "key" => $this->key,
+                "ts" => $this->ts,
+                "wait" => $this->wait,
+            ]
+        );
     }
 
     /**
+     * User-callable handler
      * @throws Throwable
      */
     public function listen(callable $callable): void
@@ -80,13 +99,13 @@ class LongPoll extends Client
 
     private function failedHandler(array $data): bool
     {
-        if (isset($data['failed'])) {
+        if (isset($data["failed"])) {
 
-            if ($data['failed'] === 1) {
-                $this->ts = $data['ts'];
+            if ($data["failed"] === 1) {
+                $this->ts = $data["ts"];
             }
 
-            if ($data['failed'] === 2 || $data['failed'] === 3) {
+            if ($data["failed"] === 2 || $data["failed"] === 3) {
                 $this->getLongPollServer();
             }
 
@@ -97,16 +116,19 @@ class LongPoll extends Client
     }
 
     /**
-     * Loop
+     * Parse the response from the server and create a child process so as not to wait for the execution of the user-callable
      * @param array $response
      * @param callable $callable
      */
     private function parseResponse(array $response, callable $callable): void
     {
-        $this->ts = $response['ts'];
-        $this->fork(fn() => array_walk($response['updates'], static function ($event) use ($callable) {
-            $callable($event);
-        }));
+        $this->ts = $response["ts"];
+
+        $this->fork(function () use ($callable, $response) {
+            foreach ($response["updates"] as $event) {
+                $callable($event);
+            }
+        });
     }
 
     /**

@@ -1,27 +1,22 @@
 {
-    "name": "labile/vk-longpoll",
-    "authors": [
-        {
-            "name": "labile",
-            "email": "1a6i1e@gmail.com"
-        }
-    ],
-    "require": {
-        "labile/vk-utils": ">=1.3.1",
-        "ext-pcntl": "*",
-        "ext-posix": "*"
-
+  "name": "labile/vk-longpoll",
+  "authors": [
+    {
+      "name": "labile",
+      "email": "1a6i1e@gmail.com"
     }
-    ,
-    "require-dev": {
-        "roave/security-advisories": "dev-latest"
-    },
-    "description": "",
-    "license": "BSD-3-Clause",
-
-    "autoload": {
-        "psr-4": {
-            "Astaroth\\LongPoll\\": "src"
-        }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
+    "ext-json": "*"
+  },
+  "description": "Bots Long Poll API component",
+  "license": "BSD-3-Clause",
+  "autoload": {
+    "psr-4": {
+      "Astaroth\\LongPoll\\": "src"
     }
+  }
 }
