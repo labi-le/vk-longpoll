@@ -10,7 +10,7 @@ use Throwable;
  * @author labile
  * @see https://vk.com/dev/bots_longpoll
  */
-final class LongPoll
+final class LongPoll implements \Astaroth\Contracts\HandlerInterface
 {
     private int $wait = 25;
     private string $key;
