@@ -15,12 +15,12 @@
 ```php
 <?php
 
-use Astaroth\LongPoll\LongPoll;
+use Astaroth\Longpoll\Longpoll;
 
 const GROUP_ID = 1337;
 const ACCESS_TOKEN = 1337;
 
-$longpoll = new LongPoll(ACCESS_TOKEN, GROUP_ID);
+$longpoll = new Longpoll(ACCESS_TOKEN, GROUP_ID);
 $longpoll->setWait(30)
 $longpoll->listen(static function($data){
 //....

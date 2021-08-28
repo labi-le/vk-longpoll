@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Astaroth\LongPoll;
+namespace Astaroth\Longpoll;
 
 final class Api
 {

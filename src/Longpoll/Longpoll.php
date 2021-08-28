@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Astaroth\LongPoll;
+namespace Astaroth\Longpoll;
 
 use Throwable;
 
@@ -10,7 +10,7 @@ use Throwable;
  * @author labile
  * @see https://vk.com/dev/bots_longpoll
  */
-final class LongPoll implements \Astaroth\Contracts\HandlerInterface
+final class Longpoll implements \Astaroth\Contracts\HandlerInterface
 {
     private int $wait = 25;
     private string $key;
