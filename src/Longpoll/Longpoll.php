@@ -85,7 +85,7 @@ final class Longpoll implements \Astaroth\Contracts\HandlerInterface
      * User-callable handler
      * @throws Throwable
      */
-    public function listen(callable $callable): void
+    public function listen(callable $func): void
     {
         $this->getLongPollServer();
         try {
