@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Astaroth\Longpoll;
 
+use Astaroth\Contracts\HandlerInterface;
 use Throwable;
 
 /**
  * @author labile
  * @see https://vk.com/dev/bots_longpoll
  */
-final class Longpoll implements \Astaroth\Contracts\HandlerInterface
+final class Longpoll implements HandlerInterface
 {
     private int $wait = 25;
     private string $key;
@@ -90,7 +91,7 @@ final class Longpoll implements \Astaroth\Contracts\HandlerInterface
         $this->getLongPollServer();
         try {
             while ($data = $this->fetchData()) {
-                $this->failedHandler($data) ?: $this->parseResponse($data, $callable);
+                $this->failedHandler($data) ?: $this->parseResponse($data, $func);
             }
         } catch (Throwable $e) {
             echo $e->getMessage() . PHP_EOL;
