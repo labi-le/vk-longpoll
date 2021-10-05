@@ -42,6 +42,11 @@ final class Api
 
         $data = $this->call(self::API_ENDPOINT . $method, $params);
 
+        if (isset($data["error"])) {
+            $error = $data["error"];
+            throw new RuntimeException($error["error_msg"], $error["error_code"]);
+        }
+
         return $data["response"] ?? $data;
     }
 }
