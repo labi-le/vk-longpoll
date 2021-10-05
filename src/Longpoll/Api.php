@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Astaroth\Longpoll;
 
+use RuntimeException;
+
 final class Api
 {
     public const API_ENDPOINT = "https://api.vk.com/method/";
@@ -25,9 +27,12 @@ final class Api
     public function call(string $url, array $params = []): array
     {
         $query_params = http_build_query($params);
-        $raw = file_get_contents($url . "?" . $query_params);
+        $stream = fopen($url . "?" . $query_params, "rb");
 
-        return @json_decode($raw, true) ?: [];
+        if ($stream === false) {
+            throw new RuntimeException("Failed to connect to VKontakte");
+        }
+        return @json_decode(stream_get_contents($stream), true) ?: [];
     }
 
     public function apiCall(string $method, array $params = [])
@@ -35,7 +40,7 @@ final class Api
         $params["access_token"] = $this->access_token;
         $params["v"] = $this->v;
 
-        $data = $this->call(static::API_ENDPOINT . $method, $params);
+        $data = $this->call(self::API_ENDPOINT . $method, $params);
 
         return $data["response"] ?? $data;
     }
