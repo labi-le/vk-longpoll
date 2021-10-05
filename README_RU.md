@@ -16,11 +16,11 @@
 
 use Astaroth\Longpoll\Longpoll;
 
-const GROUP_ID = 1337;
-const ACCESS_TOKEN = 1337;
+const ACCESS_TOKEN = "saassasasassssa";
+const VK_VERSION = "5.131";
 
-$longpoll = new Longpoll(ACCESS_TOKEN, GROUP_ID);
-$longpoll->setWait(30)
+$longpoll = new Longpoll(ACCESS_TOKEN, VK_VERSION);
+$longpoll->setWait(30);
 $longpoll->listen(static function($data){
 //....
 });
