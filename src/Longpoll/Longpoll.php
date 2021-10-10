@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Astaroth\Longpoll;
 
 use Astaroth\Contracts\HandlerInterface;
+use Exception;
 use Throwable;
 
 /**
@@ -93,8 +94,8 @@ final class Longpoll implements HandlerInterface
             while ($data = $this->fetchData()) {
                 $this->failedHandler($data) ?: $this->parseResponse($data, $func);
             }
-        } catch (Throwable $e) {
-            echo $e->getMessage() . PHP_EOL;
+        } catch (Exception $e) {
+            throw new VkLongpollException($e->getMessage(), $e->getCode());
         }
     }
 

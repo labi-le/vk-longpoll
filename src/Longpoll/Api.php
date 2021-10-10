@@ -27,12 +27,21 @@ final class Api
     public function call(string $url, array $params = []): array
     {
         $query_params = http_build_query($params);
-        $stream = fopen($url . "?" . $query_params, "rb");
+
+        $ch = curl_init("$url?$query_params");
+        curl_setopt_array($ch,
+            [
+                CURLOPT_RETURNTRANSFER => true,
+            ]
+        );
+
+        $stream = curl_exec($ch);
 
         if ($stream === false) {
             throw new RuntimeException("Failed to connect to VKontakte");
         }
-        return @json_decode(stream_get_contents($stream), true) ?: [];
+
+        return @json_decode($stream, true) ?: [];
     }
 
     public function apiCall(string $method, array $params = [])

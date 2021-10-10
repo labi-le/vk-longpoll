@@ -12,7 +12,8 @@
     "ext-posix": "*",
     "ext-json": "*",
 
-    "labile/astaroth-contracts": "^1.0"
+    "labile/astaroth-contracts": "^1.0",
+    "ext-curl": "*"
   },
   "description": "Bots Long Poll API component",
   "license": "BSD-3-Clause",
