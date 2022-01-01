@@ -37,9 +37,9 @@ final class Longpoll implements HandlerInterface
 
     /**
      * @param int $second
-     * @return static
+     * @return Longpoll
      */
-    public function setWait(int $second)
+    public function setWait(int $second): Longpoll
     {
         $this->wait = $second;
         return $this;
