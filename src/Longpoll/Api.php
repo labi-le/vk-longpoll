@@ -38,7 +38,7 @@ final class Api
         $stream = curl_exec($ch);
 
         if ($stream === false) {
-            throw new RuntimeException("Failed to connect to VKontakte");
+            throw new RuntimeException("Failed to connect to VKontakte: " . curl_error($ch));
         }
 
         return @json_decode($stream, true) ?: [];
